@@ -20,15 +20,21 @@
             box-sizing: border-box;
         }
         .login-container {
-            background: rgba(255, 255, 255, 0.5); /* Reduz a opacidade para maior transparência */
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 300px;
             box-sizing: border-box;
             text-align: center;
-            transform: translateX(300px); /* Move o contêiner para a direita em telas grandes */
+            margin: auto; /* Centraliza o contêiner por padrão */
+        }
+        @media (min-width: 1024px) {
+            .login-container {
+                margin-left: auto; /* Empurra o contêiner para a direita */
+                margin-right: 200px; /* Adiciona um espaço à direita */
+            }
         }
         .login-container img {
             max-width: 150px;
@@ -46,7 +52,7 @@
         }
         @media (max-width: 768px) {
             .login-container {
-                transform: translateX(0); /* Centraliza o contêiner horizontalmente */
+                margin: auto; /* Garante que o contêiner fique centralizado */
             }
         }
         @media (max-width: 480px) {

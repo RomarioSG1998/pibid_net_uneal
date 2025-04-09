@@ -24,10 +24,78 @@
             color: var(--text-color);
         }
 
-        header {
-            background-color: var(--secondary-color);
+        header nav {
+            display: flex;
+            justify-content: space-between; /* Espaça os itens para os lados opostos */
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-left span {
+            font-size: 1.1rem;
+            font-weight: 500;
             color: #fff;
-            padding: 15px 20px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .nav-left span::before {
+            content: "👋";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        #username-display {
+            font-weight: 600;
+            color: var(--hover-color);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            overflow: hidden;
+        }
+
+        #username-display::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaçamento uniforme entre os botões */
         }
 
         header nav ul {
@@ -35,32 +103,11 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
 
         header nav ul li {
-            margin: 0 10px;
-        }
-
-        header nav ul li img {
-            height: 60px;
-            width: auto;
-        }
-
-        header nav ul li span {
-            font-size: 24px; /* Tamanho padrão para telas maiores */
-            font-weight: 600;
-            animation: fadeIn 1.5s ease-in-out; /* Adiciona animação de entrada */
-            white-space: nowrap; /* Evita quebra de linha */
-        }
-
-        @media (max-width: 768px) {
-            header nav ul li span {
-                font-size: 18px; /* Reduz o tamanho da fonte em telas pequenas */
-                text-align: center; /* Centraliza o texto */
-                white-space: normal; /* Permite quebra de linha se necessário */
-            }
+            margin: 0;
         }
 
         header nav ul li a {
@@ -74,6 +121,12 @@
 
         header nav ul li a:hover {
             background-color: var(--hover-color);
+        }
+
+        header {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 15px 20px;
         }
 
         @keyframes fadeIn {
@@ -90,72 +143,144 @@
         main {
             display: flex;
             flex-wrap: wrap;
-            padding: 20px;
-            gap: 20px;
+            justify-content: center; /* Centraliza o conteúdo */
+            align-items: stretch;
+            height: calc(100vh - 100px); /* Altura total da tela menos o header */
+            padding: 0 20px; /* Espaçamento lateral padrão */
+            box-sizing: border-box;
         }
 
         .section {
-            flex: 1 1 calc(33.33% - 20px); /* Dividido em 3 colunas */
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-height: 300px; /* Altura máxima para exibir 3 itens */
-            overflow-y: auto; /* Adiciona barra de rolagem vertical */
+            display: none; /* Esconde todas as seções por padrão */
         }
 
-        .section h2 {
-            margin-top: 0;
-            color: var(--secondary-color);
+        .section.active {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
 
         .video-item, .file-item, .notice-item {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            box-sizing: border-box;
+            height: fit-content;
+            width: 100%;
+            min-height: 200px;
         }
 
         .video-item h3, .file-item h3, .notice-item h3 {
-            margin: 5px 0;
-            font-size: 16px;
+            margin: 0 0 10px 0;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             color: var(--text-color);
+            line-height: 1.4;
         }
 
         .video-item p, .file-item p, .notice-item p {
-            margin: 0;
-            font-size: 14px;
+            margin: 0 0 10px 0;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             color: #555;
+            line-height: 1.4;
         }
 
         .video-item iframe {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 16/9;
             border: none;
             border-radius: 8px;
+            margin: 0 0 10px 0;
+            min-height: 200px;
         }
 
         .file-item a {
+            display: inline-block;
             color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
+            padding: 8px 15px;
+            background-color: rgba(42, 157, 143, 0.1);
+            border-radius: 5px;
+            margin-top: auto;
+            transition: all 0.3s ease;
         }
 
         .file-item a:hover {
-            text-decoration: underline;
+            background-color: rgba(42, 157, 143, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Responsividade */
-        @media (max-width: 1024px) {
-            .section {
-                flex: 1 1 calc(50% - 20px); /* Dividido em 2 colunas */
+        @media (min-width: 768px) {
+            .section.active {
+                gap: 25px;
+                padding: 25px;
+            }
+
+            .video-item, .file-item, .notice-item {
+                flex: 1 1 calc(50% - 25px);
+                min-width: 300px;
+                min-height: 250px;
             }
         }
 
-        @media (max-width: 768px) {
-            main {
-                flex-direction: column;
+        @media (min-width: 1024px) {
+            .section.active {
+                gap: 30px;
+                padding: 30px;
             }
 
-            .section {
-                flex: 1 1 100%; /* Empilhado em telas pequenas */
+            .video-item, .file-item, .notice-item {
+                flex: 1 1 calc(33.33% - 30px);
+                min-width: 280px;
+                min-height: 280px;
+            }
+        }
+
+        @media (min-width: 1366px) {
+            .section.active {
+                gap: 35px;
+                padding: 35px;
+            }
+
+            .video-item, .file-item, .notice-item {
+                flex: 1 1 calc(33.33% - 35px);
+                min-width: 300px;
+                min-height: 300px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .section.active {
+                gap: 40px;
+                padding: 40px;
+            }
+
+            .video-item, .file-item, .notice-item {
+                flex: 1 1 calc(33.33% - 40px);
+                min-width: 350px;
+                min-height: 320px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .section.active {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .video-item, .file-item, .notice-item {
+                width: 100%;
+                min-height: 200px;
+                margin-bottom: 15px;
             }
         }
 
@@ -169,34 +294,205 @@
         .hidden {
             display: none; /* Oculta completamente o conteúdo */
         }
+
+        .nav-right ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-right ul li {
+            margin: 0; /* Remove margens adicionais */
+        }
+
+        .nav-right ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-right ul li a:hover {
+            background-color: var(--hover-color);
+        }
+
+        /* Estilo específico para o botão Sair */
+        .nav-right ul li:last-child a {
+            background-color: #dc3545 !important;
+        }
+
+        .nav-right ul li:last-child a:hover {
+            background-color: #c82333 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilos para o menu hamburguer */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Estilos para o menu móvel */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+            }
+
+            .nav-right ul {
+                display: none;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--secondary-color);
+                flex-direction: column;
+                padding: 80px 20px 20px;
+                gap: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+                transition: all 0.3s ease;
+            }
+
+            .nav-right ul.active {
+                display: flex;
+            }
+
+            .nav-right ul li {
+                width: 100%;
+                text-align: center;
+                margin: 0;
+            }
+
+            .nav-right ul li a {
+                display: block;
+                padding: 12px;
+                font-size: 16px;
+                background-color: var(--primary-color);
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-right ul li a:hover {
+                background-color: var(--hover-color);
+                transform: translateY(-2px);
+            }
+
+            /* Mantém o botão Sair vermelho no menu mobile */
+            .nav-right ul li:last-child a {
+                background-color: #dc3545 !important;
+            }
+
+            .nav-right ul li:last-child a:hover {
+                background-color: #c82333 !important;
+            }
+
+            /* Animação suave para o menu */
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .nav-right ul.active {
+                animation: slideIn 0.3s ease forwards;
+            }
+        }
+
+        .nav-left img {
+            height: 60px;
+            width: auto;
+            animation: pulse 30s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            1% {
+                transform: scale(1.1);
+            }
+            2% {
+                transform: scale(1);
+            }
+            3% {
+                transform: scale(1.1);
+            }
+            4% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <ul style="display: flex; align-items: center; gap: 10px;">
-                <li>
-                    <img src="pibid.png" alt="Logo">
-                </li>
-                <li>
-                    <span>Bem-vindo, <span id="username-display"></span>!</span>
-                </li>
-                <li>
-                    <a href="PortalPibid.html">Sair</a>
-                </li>
-            </ul>
+            <!-- Grupo à esquerda -->
+            <div class="nav-left">
+                <img src="pibid.png" alt="Logo" style="height: 60px; width: auto;">
+                <span>Bem-vindo, <span id="username-display"></span>!</span>
+            </div>
+
+            <!-- Grupo à direita -->
+            <div class="nav-right">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="mobile-menu">
+                    <li>
+                        <a href="#notices">Avisos</a>
+                    </li>
+                    <li>
+                        <a href="#videos">Vídeos</a>
+                    </li>
+                    <li>
+                        <a href="#downloads">Downloads</a>
+                    </li>
+                    <li>
+                        <a href="PortalPibid.html" class="logout-button">Sair</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
     <main>
-        <div class="section notices">
-            <h2>Recados/Avisos</h2>
+        <div class="section notices active" id="notices">
             <!-- Os avisos serão carregados dinamicamente pelo JavaScript -->
         </div>
-        <div class="section videos">
-            <h2>Vídeos</h2>
+        <div class="section videos" id="videos">
         </div>
-        <div class="section downloads">
-            <h2>Arquivos para Download</h2>
+        <div class="section downloads" id="downloads">
         </div>
     </main>
 
@@ -220,8 +516,9 @@
     <div id="help-popup" style="
         display: none;
         position: fixed;
-        bottom: 80px;
-        right: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         background-color: #fff;
         color: var(--text-color);
         border: 1px solid var(--primary-color);
@@ -275,6 +572,50 @@
     </div>
 
     <script>
+        // Adiciona funcionalidade ao menu hamburguer
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.mobile-menu');
+
+        // Função para mostrar a seção selecionada
+        function showSection(sectionId) {
+            // Esconde todas as seções
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostra a seção selecionada
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+        }
+
+        // Adiciona eventos de clique para os links do menu
+        document.querySelectorAll('.mobile-menu li a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('href').substring(1); // Remove o # do href
+                showSection(sectionId);
+                navMenu.classList.remove('active'); // Fecha o menu móvel
+            });
+        });
+
+        // Define "Avisos" como a seção padrão ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('notices'); // Exibe a seção de avisos por padrão
+        });
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Fecha o menu quando clicar em um item
+        document.querySelectorAll('.mobile-menu li a').forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
         // Recupera o nome do usuário do localStorage
         const username = localStorage.getItem('username');
         const mainContent = document.querySelector('main');
