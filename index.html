@@ -357,6 +357,44 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
+                z-index: 1000;
+            }
+
+            .nav-left {
+                padding-right: 50px;
+                width: calc(100% - 70px);
+            }
+
+            .nav-left img {
+                height: 40px;
+                width: auto;
+            }
+
+            .nav-left span {
+                font-size: 0.9rem;
+                padding-left: 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 120px;
+            }
+
+            .nav-left span::before {
+                content: "👋";
+                font-size: 1rem;
+            }
+
+            .nav-left span::after {
+                content: ", ";
+            }
+
+            #username-display {
+                font-size: 0.9rem;
+            }
+
+            /* Esconde o texto "Bem-vindo" e a exclamação em telas pequenas */
+            .nav-left span:not(:before):not(:after) {
+                display: none;
             }
 
             .nav-right ul {
@@ -459,7 +497,7 @@
             <!-- Grupo à esquerda -->
             <div class="nav-left">
                 <img src="pibid.png" alt="Logo" style="height: 60px; width: auto;">
-                <span>Bem-vindo, <span id="username-display"></span>!</span>
+                <span>Olá, <span id="username-display"></span>!</span>
             </div>
 
             <!-- Grupo à direita -->
