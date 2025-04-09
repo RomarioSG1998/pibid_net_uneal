@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Pibid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('./imagens/fundologin.jpg'); /* Substitua 'background.jpg' pelo caminho da sua imagem */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Evita repetição da imagem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.5); /* Reduz a opacidade para maior transparência */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            text-align: center;
+            transform: translateX(300px); /* Move o contêiner para a direita em telas grandes */
+        }
+        .login-container img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        @media (max-width: 768px) {
+            .login-container {
+                transform: translateX(0); /* Centraliza o contêiner horizontalmente */
+            }
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 15px;
+                transform: translateX(0); /* Centraliza o contêiner horizontalmente */
+            }
+            .form-group input, .form-group button {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+            .form-footer a {
+                font-size: 0.8rem;
+            }
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff; /* Cor da borda ao focar */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efeito de brilho ao focar */
+            outline: none; /* Remove o contorno padrão */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff; /* Cor de fundo azul */
+            color: #fff; /* Cor do texto branca */
+            border: none; /* Remove a borda padrão */
+            border-radius: 4px; /* Bordas arredondadas */
+            font-size: 1rem; /* Tamanho da fonte */
+            cursor: pointer; /* Mostra o cursor de clique */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3; /* Cor de fundo mais escura ao passar o mouse */
+            transform: scale(1.05); /* Leve aumento no tamanho */
+        }
+
+        .form-group button:active {
+            background-color: #004085; /* Cor de fundo ainda mais escura ao clicar */
+            transform: scale(0.98); /* Leve redução no tamanho ao clicar */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="pibid.png" alt="Logo do Portal Pibid">
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Entrar</button>
+            </div>
+        </form>
+        <div class="form-footer">
+            <p>Não tem uma conta? <a href="https://wa.me/5582981083015" target="_blank">Cadastre-se</a></p>
+        </div>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('logins.txt');
+                if (!response.ok) {
+                    throw new Error('Não foi possível acessar o arquivo de logins.');
+                }
+
+                const loginsText = await response.text();
+                const logins = loginsText.split('\n').map(line => line.trim());
+
+                const isValidLogin = logins.some(login => {
+                    const [storedUsername, storedPassword] = login.split(':');
+                    return storedUsername === username && storedPassword === password;
+                });
+
+                if (isValidLogin) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('username', username);
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Usuário ou senha inválidos.');
+                }
+            } catch (error) {
+                console.error('Erro ao verificar login:', error);
+                alert('Ocorreu um erro. Tente novamente mais tarde.');
+            }
+        });
+    </script>
+</body>
+</html>

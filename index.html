@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Paleta de cores */
+        :root {
+            --primary-color: #2a9d8f; /* Verde suave */
+            --secondary-color: #264653; /* Azul escuro */
+            --background-color: #f0f4f8; /* Cinza claro */
+            --text-color: #333; /* Texto principal */
+            --accent-color: #e76f51; /* Vermelho suave */
+            --hover-color: #f4a261; /* Laranja suave */
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 15px 20px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul li {
+            margin: 0 10px;
+        }
+
+        header nav ul li img {
+            height: 60px;
+            width: auto;
+        }
+
+        header nav ul li span {
+            font-size: 24px; /* Tamanho padrão para telas maiores */
+            font-weight: 600;
+            animation: fadeIn 1.5s ease-in-out; /* Adiciona animação de entrada */
+            white-space: nowrap; /* Evita quebra de linha */
+        }
+
+        @media (max-width: 768px) {
+            header nav ul li span {
+                font-size: 18px; /* Reduz o tamanho da fonte em telas pequenas */
+                text-align: center; /* Centraliza o texto */
+                white-space: normal; /* Permite quebra de linha se necessário */
+            }
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: var(--accent-color);
+            transition: background-color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            background-color: var(--hover-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .section {
+            flex: 1 1 calc(33.33% - 20px); /* Dividido em 3 colunas */
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 300px; /* Altura máxima para exibir 3 itens */
+            overflow-y: auto; /* Adiciona barra de rolagem vertical */
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+
+        .video-item, .file-item, .notice-item {
+            margin-bottom: 20px;
+        }
+
+        .video-item h3, .file-item h3, .notice-item h3 {
+            margin: 5px 0;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .video-item p, .file-item p, .notice-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .file-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .file-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .section {
+                flex: 1 1 calc(50% - 20px); /* Dividido em 2 colunas */
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+
+            .section {
+                flex: 1 1 100%; /* Empilhado em telas pequenas */
+            }
+        }
+
+        /* Classe para desfoque */
+        .blurred {
+            filter: blur(5px);
+            pointer-events: none; /* Impede interações com o conteúdo */
+        }
+
+        /* Classe para ocultar o conteúdo principal */
+        .hidden {
+            display: none; /* Oculta completamente o conteúdo */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul style="display: flex; align-items: center; gap: 10px;">
+                <li>
+                    <img src="pibid.png" alt="Logo">
+                </li>
+                <li>
+                    <span>Bem-vindo, <span id="username-display"></span>!</span>
+                </li>
+                <li>
+                    <a href="PortalPibid.html">Sair</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="section notices">
+            <h2>Recados/Avisos</h2>
+            <!-- Os avisos serão carregados dinamicamente pelo JavaScript -->
+        </div>
+        <div class="section videos">
+            <h2>Vídeos</h2>
+        </div>
+        <div class="section downloads">
+            <h2>Arquivos para Download</h2>
+        </div>
+    </main>
+
+    <!-- Botão flutuante -->
+    <button id="help-button" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    ">?</button>
+
+    <!-- Pop-up -->
+    <div id="help-popup" style="
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background-color: #fff;
+        color: var(--text-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        z-index: 1000;
+    ">
+        <h3 style="margin-top: 0; color: var(--secondary-color);">Sobre o Portal</h3>
+        <p>Este portal foi criado com o objetivo de facilitar o acesso a materiais educativos, vídeos e recados importantes para os participantes do programa PIBID. Ele visa promover a organização e a disseminação de informações de forma eficiente.</p>
+        <button id="close-popup" style="
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        ">Fechar</button>
+    </div>
+
+    <!-- Modal de aviso -->
+    <div id="login-modal" style="
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        color: var(--text-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        z-index: 1000;
+        text-align: center;
+    ">
+        <h3 style="margin-top: 0; color: var(--secondary-color);">Acesso Negado</h3>
+        <p>Você precisa fazer login para acessar esta página.</p>
+        <button id="modal-ok-button" style="
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        ">OK</button>
+    </div>
+
+    <script>
+        // Recupera o nome do usuário do localStorage
+        const username = localStorage.getItem('username');
+        const mainContent = document.querySelector('main');
+        const helpButton = document.getElementById('help-button');
+        const header = document.querySelector('header');
+
+        if (username) {
+            document.getElementById('username-display').textContent = username;
+        } else {
+            // Exibe o modal de aviso
+            const loginModal = document.getElementById('login-modal');
+            const modalOkButton = document.getElementById('modal-ok-button');
+            loginModal.style.display = 'block';
+
+            // Oculta o conteúdo principal, o botão de ajuda e o menu superior
+            mainContent.classList.add('hidden');
+            helpButton.classList.add('hidden');
+            header.classList.add('hidden');
+
+            // Redireciona para a página de login ao clicar no botão "OK"
+            modalOkButton.addEventListener('click', () => {
+                window.location.href = 'PortalPibid.html';
+            });
+        }
+
+        // Função para carregar os vídeos do arquivo links.txt
+        async function loadVideos() {
+            try {
+                const response = await fetch('links.txt');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar os vídeos.');
+                }
+
+                const text = await response.text();
+                const videos = text
+                    .trim()
+                    .split('\n')
+                    .map(line => JSON.parse(line));
+
+                const videosContainer = document.querySelector('.videos');
+
+                videos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.classList.add('video-item');
+                    const embedLink = `https://www.youtube.com/embed/${new URL(video.link).searchParams.get('v')}`;
+                    videoItem.innerHTML = `
+                        <iframe src="${embedLink}" allowfullscreen></iframe>
+                        <h3>${video.titulo}</h3>
+                        <p>Publicado em: ${video.data_publicacao}</p>
+                    `;
+                    videosContainer.appendChild(videoItem);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os vídeos:', error);
+                alert('Não foi possível carregar os vídeos.');
+            }
+        }
+
+        // Função para carregar os arquivos de downloads do arquivo doc.txt
+        async function loadDownloads() {
+            try {
+                const response = await fetch('doc.txt');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar os arquivos de download.');
+                }
+
+                const text = await response.text();
+                const documents = text
+                    .trim()
+                    .split('\n')
+                    .map(line => JSON.parse(line));
+
+                const downloadsContainer = document.querySelector('.downloads');
+
+                documents.forEach(doc => {
+                    const fileItem = document.createElement('div');
+                    fileItem.classList.add('file-item');
+                    fileItem.innerHTML = `
+                        <h3>${doc.nome}</h3>
+                        <p>Publicado em: ${doc.data}</p>
+                        <a href="${doc.diretorio}" download>Baixar Arquivo</a>
+                    `;
+                    downloadsContainer.appendChild(fileItem);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os arquivos de download:', error);
+                alert('Não foi possível carregar os arquivos de download.');
+            }
+        }
+
+        // Função para carregar os avisos do arquivo notices.txt
+        async function loadNotices() {
+            try {
+                const response = await fetch('notices.txt');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar os avisos.');
+                }
+
+                const text = await response.text();
+                const notices = text
+                    .trim()
+                    .split('\n')
+                    .map(line => JSON.parse(line)); // Converte cada linha do arquivo em um objeto JSON
+
+                const noticesContainer = document.querySelector('.notices');
+
+                // Adiciona cada aviso ao container
+                notices.forEach(notice => {
+                    const noticeItem = document.createElement('div');
+                    noticeItem.classList.add('notice-item');
+                    noticeItem.innerHTML = `
+                        <h3>${notice.titulo}</h3>
+                        <p>${notice.descricao}</p>
+                        <p><small>Publicado em: ${notice.data}</small></p>
+                    `;
+                    noticesContainer.appendChild(noticeItem);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os avisos:', error);
+                alert('Não foi possível carregar os avisos.');
+            }
+        }
+
+        // Função para exibir o pop-up
+        const helpButtonElement = document.getElementById('help-button');
+        const helpPopup = document.getElementById('help-popup');
+        const closePopup = document.getElementById('close-popup');
+
+        helpButtonElement.addEventListener('click', () => {
+            helpPopup.style.display = 'block';
+        });
+
+        closePopup.addEventListener('click', () => {
+            helpPopup.style.display = 'none';
+        });
+
+        // Recupera o botão "Sair"
+        const logoutButton = document.querySelector('a[href="PortalPibid.html"]');
+
+        // Adiciona um evento de clique para limpar o localStorage
+        logoutButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Impede o comportamento padrão do link
+            localStorage.removeItem('username'); // Remove o login do usuário
+            window.location.href = 'PortalPibid.html'; // Redireciona para a página de login
+        });
+
+        // Carrega os vídeos, os arquivos de download e os avisos ao carregar a página
+        loadVideos();
+        loadDownloads();
+        loadNotices();
+    </script>
+</body>
+</html>

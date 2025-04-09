@@ -1,0 +1,4 @@
+{"titulo": "Aviso 1", "descricao": "Descrição do aviso 1.", "data": "09/04/2025"}
+{"titulo": "Aviso 2", "descricao": "Descrição do aviso 2.", "data": "08/04/2025"}
+{"titulo": "Aviso 3", "descricao": "Descrição do aviso 3.", "data": "07/04/2025"}
+{"titulo": "Aviso 4", "descricao": "Descrição do aviso 4.", "data": "06/04/2025"}
