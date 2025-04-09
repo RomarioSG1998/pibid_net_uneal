@@ -40,25 +40,71 @@
             max-width: 150px;
             height: auto;
             margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+            animation: pulse 5s ease-in-out infinite;
         }
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
             }
             50% {
-                transform: translateY(-10px);
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .logos-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .logos-container img {
+            height: 80px;
+            width: auto;
+            animation: pulse 5s ease-in-out infinite;
+        }
+        @media (max-width: 1024px) {
+            .logos-container {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .logos-container img {
+                height: 70px;
             }
         }
         @media (max-width: 768px) {
             .login-container {
-                margin: auto; /* Garante que o contêiner fique centralizado */
+                margin: auto;
+            }
+            .logos-container {
+                left: 50%;
+                transform: translateX(-50%);
+                gap: 15px;
+                padding: 8px;
+            }
+            .logos-container img {
+                height: 50px;
             }
         }
         @media (max-width: 480px) {
             .login-container {
                 padding: 15px;
-                transform: translateX(0); /* Centraliza o contêiner horizontalmente */
+                transform: translateX(0);
+            }
+            .logos-container {
+                left: 50%;
+                transform: translateX(-50%);
+                gap: 10px;
+                padding: 5px;
+            }
+            .logos-container img {
+                height: 35px;
             }
             .form-group input, .form-group button {
                 font-size: 0.9rem;
@@ -116,12 +162,17 @@
     </style>
 </head>
 <body>
+    <div class="logos-container">
+        <img src="./imagens/logo1.png" alt="Logo">
+        <img src="./imagens/logo2.png" alt="Logo">
+        <img src="./imagens/pibid.png" alt="Logo">
+    </div>
     <div class="login-container">
-        <img src="pibid.png" alt="Logo do Portal Pibid">
+        <img src="./imagens/pibid.png" alt="Logo do Portal Pibid">
         <form action="#" method="POST">
             <div class="form-group">
-                <label for="username">Usuário</label>
-                <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+                <label for="username">Nome</label>
+                <input type="text" id="username" name="username" placeholder="Digite seu nome" required>
             </div>
             <div class="form-group">
                 <label for="password">Senha</label>
@@ -169,5 +220,29 @@
             }
         });
     </script>
+    <script>
+        // Adiciona o ano atual no rodapé
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYear = new Date().getFullYear();
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = currentYear;
+            }
+        });
+    </script>
+    <footer style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 5px;
+        font-size: 0.7rem;
+        color: #333;
+        background-color: transparent;
+        z-index: 1000;
+    ">
+        Developed by Romário Gadino © 2025 - <span id="current-year"></span>
+    </footer>
 </body>
 </html>
